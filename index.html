@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modernización Tecnológica - Nuevo Core Bancario & Bca Empresarial</title>
+    <style>
+        :root {
+            --bg-color: #dbeafe; /* Fondo general azul claro suave */
+            --card-bg: #ebf3fa;  /* Fondo de la tarjeta principal */
+            --sub-card-bg: #ffffff; /* Fondo de las tarjetas inferiores */
+            --main-blue: #133c70; /* Azul corporativo oscuro de los títulos */
+            --accent-blue: #2563eb; /* Azul secundario para enlaces/detalles */
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --accent-orange: #f97316; /* Color naranja de acento para alertas y "Hoy" */
+            --timeline-bg-line: #b4cfe8; /* Azul claro para el tramo futuro de la línea */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            background-image: linear-gradient(180deg, #dbeafe 0%, #eff6ff 100%);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Top Header */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 10px;
+        }
+
+        .brand-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-group {
+            font-size: 13px;
+            color: var(--main-blue);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--main-blue);
+            margin: 5px 0 0 0;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        .btn-print {
+            background-color: white;
+            border: 1px solid #cbd5e0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-dark);
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        /* Main Dashboard Card */
+        .main-card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 45px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .project-info-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .project-details h1 {
+            color: var(--main-blue);
+            font-size: 42px;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .project-description {
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--main-blue);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .project-meta-pills {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* KPI Badge Right side */
+        .kpi-badge {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+
+        .kpi-number {
+            font-size: 110px;
+            font-weight: 800;
+            color: var(--main-blue);
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--main-blue);
+            margin-top: 10px;
+            text-align: right;
+            width: 160px;
+            line-height: 1.4;
+        }
+
+        .kpi-subtext {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* Timeline Section */
+        .timeline-container {
+            margin-top: 60px;
+            margin-bottom: 60px;
+            position: relative;
+            padding: 0;
+            height: 4px; /* Altura física estricta de la línea */
+        }
+
+        /* Línea base de fondo (Futuro / Inactivo) */
+        .timeline-line {
+            height: 4px;
+            background-color: var(--timeline-bg-line);
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        /* Línea de progreso real (Pasado / Activo) */
+        .timeline-progress {
+            height: 4px;
+            background-color: var(--main-blue);
+            width: 14.5%; /* Posición exacta proporcional del marcador Hoy */
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 2px 0 0 2px;
+            z-index: 2;
+        }
+
+        .timeline-nodes {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 100%;
+            top: 2px; /* Centro exacto de la línea de 4px */
+            transform: translateY(-50%);
+            z-index: 3;
+        }
+
+        .timeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 1px; /* Nodo como punto de origen exacto sin cajas que interfieran */
+            position: relative;
+        }
+
+        /* Contenedor estricto del círculo para centrado matemático perfecto sin heredar paddings o sombras con fondo */
+        .circle-wrapper {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        /* Estilos de círculos limpios sin cajas de sombra falsas */
+        .node-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ebf3fa; /* Fondo exacto de la tarjeta para simular hueco */
+            border: 3px solid var(--main-blue);
+            box-sizing: border-box;
+        }
+
+        /* Círculo ya completado */
+        .node-circle.filled {
+            background-color: var(--main-blue);
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Último hito / Inicio de operaciones (Naranja Sólido) */
+        .node-circle.orange {
+            background-color: var(--accent-orange);
+            border-color: var(--accent-orange);
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Líneas verticales conectoras */
+        .node-stem {
+            position: absolute;
+            width: 1px;
+            background-color: #7fa4cd; /* Línea delgada azul grisácea idéntica al diseño */
+        }
+        
+        /* Conectores hacia arriba */
+        .node-stem.up {
+            bottom: 6px;
+            height: 50px; /* Altura base por defecto */
+        }
+        
+        /* Variaciones de altura para evitar que se encimen los textos largos */
+        .node-stem.up.tall {
+            height: 85px;
+        }
+
+        /* Conectores hacia abajo (para las fechas) */
+        .node-stem.down {
+            top: 6px;
+            height: 30px;
+        }
+
+        /* Contenedores de texto flotantes */
+        .node-label-box {
+            position: absolute;
+            width: 160px;
+            text-align: center;
+            color: var(--main-blue);
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .node-label-box.up {
+            bottom: 60px; /* Espacio de la línea conectora + margen */
+            font-weight: 500;
+        }
+        
+        .node-label-box.up.tall {
+            bottom: 95px;
+        }
+
+        .node-date-box {
+            position: absolute;
+            width: 100px;
+            text-align: center;
+            color: var(--main-blue);
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            top: 42px; /* Espacio de la línea conectora hacia abajo */
+        }
+
+        /* Marcador de fecha actual ("Hoy") */
+        .timeline-marker-today {
+            position: absolute;
+            left: 14.5%; /* Alineación exacta con la barra de progreso */
+            top: 2px;
+            transform: translateY(-50%);
+            z-index: 6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Pequeña línea vertical naranja característica del Hoy */
+        .today-indicator-line {
+            width: 2px;
+            height: 18px;
+            background-color: var(--accent-orange);
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 7;
+        }
+
+        /* Círculo del marcador hoy */
+        .today-circle {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ebf3fa;
+            border: 2px solid var(--main-blue);
+            box-sizing: border-box;
+        }
+
+        .today-label-box {
+            position: absolute;
+            top: 20px;
+            transform: translateX(-50%);
+            left: 50%;
+            white-space: nowrap;
+            font-size: 12px;
+            color: var(--accent-orange);
+            font-weight: 700;
+        }
+
+        /* Bottom Row Cards */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .bottom-card {
+            background-color: var(--sub-card-bg);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .bottom-card h2 {
+            font-size: 20px;
+            color: var(--main-blue);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .bottom-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 12px 0;
+            color: var(--text-dark);
+        }
+
+        .text-empty {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .alert-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .badge-alert {
+            background-color: #D9F2D0;
+            color: #4EA72E;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- Header -->
+        <header class="top-header">
+            <div class="brand-logo">
+                <span class="brand-group">Grupo Consupago</span>
+                <h2 class="brand-title">Modernización Tecnológica</h2>
+            </div>
+            <div class="header-meta">
+                <div>
+                    Información al <strong>17 Oct 2026</strong><br>
+                    Consulta del 20 oct 2026
+                </div>
+                <button class="btn-print" onclick="window.print()">Imprimir vista</button>
+            </div>
+        </header>
+
+        <!-- Main Card Dashboard -->
+        <main class="main-card">
+            
+            <div class="project-info-grid">
+                <!-- Left Content -->
+                <div class="project-details">
+                    <h1>Nuevo Core Bancario & Bca Empresarial</h1>
+                    
+                    <div class="project-description">
+                        Habilitar un Sistema Core único que permita la gestión de la gama de productos del banco, permitiendo 1.Agilidad e Innovación en Productos, 2. Eficiencia Operativa y Reducción de Costos, 3.Mejora de experiencia del cliente, 4.Mejora en la gestión de datos, riesgo y cumplimiento y 5.Escalabilidad y flexibilidad tecnológica
+                    </div>
+                    
+                    <div class="project-meta-pills">
+                        Habilitador de la estrategia del negocio de banca de gobierno y la disminución de la dependencia y servicios profesionales de proveedor (Fiserv)
+                    </div>
+                </div>
+
+                <div class="kpi-badge">
+                    <div class="kpi-number">447</div>
+                    <div class="kpi-label">días para el inicio de operaciones</div>
+                    <div class="kpi-subtext">01 de enero de 2028</div>
+                </div>
+            </div>
+
+            <!-- Timeline Perfeccionada y Fiel al Diseño Deseado -->
+            <div class="timeline-container">
+                <!-- Línea de Fondo Clara (Futuro) -->
+                <div class="timeline-line"></div>
+                
+                <!-- Línea de Progreso Oscura (Pasado) -->
+                <div class="timeline-progress"></div>
+                
+                <!-- Marcador de "Hoy" con su línea indicadora naranja e indicador -->
+                <div class="timeline-marker-today">
+                    <div class="today-indicator-line"></div>
+                    <div class="today-circle"></div>
+                    <div class="today-label-box">Hoy, 16 oct</div>
+                </div>
+
+                <!-- Nodos con líneas conectoras verticales y alturas variables -->
+                <div class="timeline-nodes">
+                    
+                    <!-- Hito 1 -->
+                    <div class="timeline-node" style="left: 0%;">
+                        <div class="node-stem up"></div>
+                        <div class="node-label-box up">Productos Pensión</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle filled"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box">10 sep 2026</div>
+                    </div>
+                    
+                    <!-- Hito 2 -->
+                    <div class="timeline-node" style="left: 17%;">
+                        <div class="node-stem up tall"></div>
+                        <div class="node-label-box up tall">Consuprotección</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box">10 oct 2026</div>
+                    </div>
+
+                    <!-- Hito 3 -->
+                    <div class="timeline-node" style="left: 34%;">
+                        <div class="node-stem up"></div>
+                        <div class="node-label-box up">Fondeo y Crédito comercial</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box">20 nov 2026</div>
+                    </div>
+
+                    <!-- Hito 4 -->
+                    <div class="timeline-node" style="left: 51%;">
+                        <div class="node-stem up tall"></div>
+                        <div class="node-label-box up tall">Fin de construcción del sistema</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box">20 ene 2027</div>
+                    </div>
+                    
+                    <!-- Hito 5 -->
+                    <div class="timeline-node" style="left: 68%;">
+                        <div class="node-stem up"></div>
+                        <div class="node-label-box up">Pruebas funcionales</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box">26 jul 2027</div>
+                    </div>
+
+                    <!-- Hito 6 -->
+                    <div class="timeline-node" style="left: 83%;">
+                        <div class="node-stem up tall"></div>
+                        <div class="node-label-box up tall">Pruebas integrales</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box">21 nov 2027</div>
+                    </div>
+
+                    <!-- Hito 7 -->
+                    <div class="timeline-node" style="left: 100%;">
+                        <div class="node-stem up"></div>
+                        <div class="node-label-box up" style="color: var(--accent-orange); font-weight: 700;">Inicio de operaciones</div>
+                        <div class="circle-wrapper">
+                            <div class="node-circle orange"></div>
+                        </div>
+                        <div class="node-stem down"></div>
+                        <div class="node-date-box" style="color: var(--accent-orange);">01 ene 2028</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Rows Info Box -->
+        <div class="bottom-grid">
+            <div class="bottom-card">
+                <h2>Decisiones pendientes de Dirección</h2>
+                <p class="text-empty">No hay decisiones pendientes por el momento.</p>
+            </div>
+
+            <div class="bottom-card">
+                <h2>Alertas y riesgos</h2>
+                <div class="alert-container">
+                    <p style="font-weight: 600; margin: 0;">Pruebas de usuario</p>
+                    <span class="badge-alert">Baja</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
