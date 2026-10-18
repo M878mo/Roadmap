@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Nuevo Core Bancario & Bca Empresarial</title>
+    <title>Programa CAN - Crédito Asociado a la Nómina</title>
     <style>
         :root {
-            --bg-color: #ebf3fa;
-            --card-bg: #ffffff;
-            --main-blue: #1a365d;
-            --light-blue: #f0f4f8;
-            --text-dark: #2d3748;
-            --text-muted: #718096;
-            --accent-orange: #ff5a1f;
+            --bg-color: #dbeafe; /* Fondo general azul claro suave */
+            --card-bg: #ebf3fa;  /* Fondo de la tarjeta principal */
+            --sub-card-bg: #ffffff; /* Fondo de las tarjetas inferiores */
+            --main-blue: #133c70; /* Azul corporativo oscuro de los títulos */
+            --accent-blue: #2563eb; /* Azul secundario para enlaces/detalles */
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --accent-orange: #f97316; /* Color naranja de acento para alertas y "Hoy" */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
+            background-image: linear-gradient(180deg, #dbeafe 0%, #eff6ff 100%);
             color: var(--text-dark);
             margin: 0;
-            padding: 20px;
+            padding: 30px 20px;
             display: flex;
             justify-content: center;
         }
@@ -30,15 +32,15 @@
             max-width: 1100px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
 
         /* Top Header */
         .top-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px 10px 0 10px;
+            align-items: flex-end;
+            padding: 0 10px;
         }
 
         .brand-logo {
@@ -47,79 +49,85 @@
         }
 
         .brand-group {
-            font-size: 11px;
+            font-size: 13px;
             color: var(--main-blue);
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .brand-title {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 32px;
+            font-weight: 800;
             color: var(--main-blue);
-            margin: 0;
+            margin: 5px 0 0 0;
         }
 
         .header-meta {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
             font-size: 12px;
             color: var(--text-muted);
             text-align: right;
+            line-height: 1.5;
         }
 
         .btn-print {
             background-color: white;
             border: 1px solid #cbd5e0;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
             font-size: 12px;
             color: var(--text-dark);
-            font-weight: 500;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: #f8fafc;
+            border-color: #94a3b8;
         }
 
         /* Main Dashboard Card */
         .main-card {
             background-color: var(--card-bg);
             border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            position: relative;
+            padding: 45px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 40px;
         }
 
         .project-info-grid {
             display: grid;
             grid-template-columns: 3fr 1fr;
             gap: 40px;
+            align-items: start;
         }
 
         .project-details h1 {
             color: var(--main-blue);
-            font-size: 36px;
-            margin: 0 0 15px 0;
-            font-weight: 600;
+            font-size: 42px;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .project-description {
-            font-size: 15px;
+            font-size: 17px;
             line-height: 1.6;
-            color: var(--text-dark);
-            margin-bottom: 20px;
+            color: var(--main-blue);
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
         .project-meta-pills {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
             line-height: 1.8;
-        }
-
-        .project-meta-pills span {
-            font-weight: 600;
-            color: var(--main-blue);
         }
 
         /* KPI Badge Right side */
@@ -132,31 +140,34 @@
         }
 
         .kpi-number {
-            font-size: 84px;
-            font-weight: 700;
+            font-size: 110px;
+            font-weight: 800;
             color: var(--main-blue);
-            line-height: 1;
+            line-height: 0.9;
+            letter-spacing: -2px;
         }
 
         .kpi-label {
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 700;
             color: var(--main-blue);
-            margin-top: 5px;
+            margin-top: 10px;
             text-align: right;
+            width: 160px;
+            line-height: 1.4;
         }
 
         .kpi-subtext {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--text-muted);
-            margin-top: 2px;
+            margin-top: 5px;
         }
 
         /* Timeline Section */
         .timeline-container {
-            margin-top: 20px;
+            margin-top: 30px;
             position: relative;
-            padding-bottom: 20px;
+            padding: 40px 0;
         }
 
         .timeline-line {
@@ -181,22 +192,27 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 120px;
+            width: 130px;
             text-align: center;
+            position: relative;
         }
 
         .node-date {
-            font-size: 11px;
-            font-weight: bold;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            height: 15px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--main-blue);
+            position: absolute;
+            bottom: 25px;
+            white-space: nowrap;
         }
 
         .node-label {
             font-size: 11px;
             color: var(--text-muted);
-            margin-bottom: 12px;
+            position: absolute;
+            bottom: 43px;
+            width: 140px;
+            line-height: 1.3;
             height: 30px;
             display: flex;
             align-items: flex-end;
@@ -207,10 +223,10 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background-color: white;
+            background-color: var(--card-bg);
             border: 3px solid var(--main-blue);
-            box-shadow: 0 0 0 4px white;
-            transition: all 0.3s;
+            box-shadow: 0 0 0 6px var(--card-bg);
+            margin-top: 6px;
         }
 
         .node-circle.filled {
@@ -222,80 +238,92 @@
             border-color: var(--accent-orange);
             width: 14px;
             height: 14px;
+            box-shadow: 0 0 0 6px var(--card-bg);
         }
 
+        /* Marcador de fecha actual ("Hoy") */
         .timeline-node.current-date {
             position: absolute;
-            left: 25%;
+            left: 23%;
             top: 50%;
             transform: translate(-50%, -50%);
             width: auto;
             z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .current-date .node-circle {
             width: 8px;
             height: 8px;
             background-color: var(--accent-orange);
-            border: 2px solid white;
+            border: 2px solid var(--card-bg);
             box-shadow: 0 0 0 2px var(--accent-orange);
+            margin: 0;
         }
 
         .current-date-label {
             position: absolute;
             top: 15px;
             white-space: nowrap;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--accent-orange);
-            font-weight: bold;
-            left: 50%;
-            transform: translateX(-50%);
+            font-weight: 700;
         }
 
         /* Bottom Row Cards */
         .bottom-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 24px;
         }
 
         .bottom-card {
-            background-color: var(--card-bg);
+            background-color: var(--sub-card-bg);
             border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .bottom-card h2 {
-            font-size: 18px;
+        .bottom-card-content h2 {
+            font-size: 20px;
             color: var(--main-blue);
             margin-top: 0;
-            margin-bottom: 15px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
 
         .bottom-card p {
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.6;
-            margin: 0;
+            margin: 0 0 12px 0;
             color: var(--text-dark);
-        }
-
-        .bottom-card ul {
-            margin: 0;
-            padding-left: 20px;
-            font-size: 13px;
-            line-height: 1.6;
-            color: var(--text-dark);
-        }
-
-        .bottom-card li {
-            margin-bottom: 6px;
         }
 
         .text-empty {
             color: var(--text-muted);
             font-style: italic;
+        }
+
+        .alert-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .badge-alert {
+            background-color: #fef3c7;
+            color: #d97706;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -306,13 +334,13 @@
         <!-- Header -->
         <header class="top-header">
             <div class="brand-logo">
-                <span class="brand-group">Grupo Consubanco</span>
-                <h2 class="brand-title">Consubanco</h2>
+                <span class="brand-group">Grupo Consupago</span>
+                <h2 class="brand-title">Programa CAN</h2>
             </div>
             <div class="header-meta">
                 <div>
-                    Información al <strong>17 oct 2026</strong><br>
-                    <span style="font-size: 11px;">Fecha de alta: 01/01/2026</span>
+                    Información al <strong>2 oct 2026</strong><br>
+                    Consulta del 16 oct 2026
                 </div>
                 <button class="btn-print" onclick="window.print()">Imprimir vista</button>
             </div>
@@ -324,101 +352,6 @@
             <div class="project-info-grid">
                 <!-- Left Content -->
                 <div class="project-details">
-                    <h1>Nuevo Core & Bca Empresarial</h1>
+                    <h1>Crédito Asociado a la Nómina</h1>
                     
                     <div class="project-description">
-                        <strong>Solución propuesta:</strong> Implementar un Sistema Core que permita la gestión de la cartera de Banca Empresarial y de Gobierno
-                    </div>
-                    
-                    <div class="project-meta-pills">
-                        <div><span>Sponsor:</span> M. Matus</div>
-                        <div><span>Líder del proyecto:</span> M. Matus</div>
-                        <div><span>Tipo de proyecto:</span> Modernización Tecnológica</div>
-                    </div>
-                </div>
-
-                <!-- Right Content (KPI) -->
-                <div class="kpi-badge">
-                    <div class="kpi-number">381</div>
-                    <div class="kpi-label">días desde el inicio del proyecto</div>
-                    <div class="kpi-subtext">Alta: 01 de enero de 2026</div>
-                </div>
-            </div>
-
-            <!-- Timeline Diagram -->
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-                
-                <!-- Current date indicator marker on line -->
-                <div class="timeline-node current-date">
-                    <div class="node-circle"></div>
-                    <div class="current-date-label">Hoy, 17 oct</div>
-                </div>
-
-                <div class="timeline-nodes">
-                    <!-- Node 1 -->
-                    <div class="timeline-node">
-                        <div class="node-date">01 ene 2026</div>
-                        <div class="node-label">Alta del Proyecto</div>
-                        <div class="node-circle filled"></div>
-                    </div>
-                    
-                    <!-- Node 2 -->
-                    <div class="timeline-node">
-                        <div class="node-date">Ene 2026</div>
-                        <div class="node-label">Desarrollo Inicial</div>
-                        <div class="node-circle filled"></div>
-                    </div>
-
-                    <!-- Node 3 -->
-                    <div class="timeline-node" style="visibility: hidden;">
-                        <!-- Spacer for current date position area -->
-                        <div class="node-date"></div><div class="node-label"></div><div class="node-circle"></div>
-                    </div>
-
-                    <!-- Node 4 -->
-                    <div class="timeline-node">
-                        <div class="node-date">Mid 2026</div>
-                        <div class="node-label">Fase de Pruebas</div>
-                        <div class="node-circle"></div>
-                    </div>
-
-                    <!-- Node 5 -->
-                    <div class="timeline-node">
-                        <div class="node-date">Dic 2027</div>
-                        <div class="node-label">Lanzamiento Estimado</div>
-                        <div class="node-circle orange"></div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-
-        <!-- Bottom Rows Info Box -->
-        <div class="bottom-grid">
-            
-            <!-- Left Box: Antecedentes / Alcance -->
-            <div class="bottom-card">
-                <h2>Antecedentes / Alcance</h2>
-                <p style="margin-bottom: 10px;"><strong>Antecedentes / Contexto:</strong> <span class="text-empty">No se especifican antecedentes en la ficha técnica del proyecto.</span></p>
-                <p><strong>Alcance:</strong> <span class="text-empty">El alcance detallado se encuentra en definición según el modelo estratégico.</span></p>
-            </div>
-
-            <!-- Right Box: Hipótesis de Beneficios / KPIs -->
-            <div class="bottom-card">
-                <h2>Hipótesis de Beneficios & KPIs</h2>
-                <p style="margin-bottom: 12px;"><strong>Hipótesis de Beneficios:</strong><br>Ahorro en gestión de todos los productos en un solo sistema.</p>
-                
-                <p><strong>KPIs y Metas:</strong></p>
-                <ul>
-                    <li>Eficiencia en el costo.</li>
-                    <li>Ahorro por el diferencial de tasas.</li>
-                </ul>
-            </div>
-
-        </div>
-
-    </div>
-
-</body>
-</html>
