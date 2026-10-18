@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa CAN - Cuenta Rocket</title>
+    <style>
+        :root {
+            --bg-color: #ebf3fa;
+            --card-bg: #ffffff;
+            --main-blue: #1a365d;
+            --light-blue: #f0f4f8;
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+            --accent-orange: #ff5a1f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Top Header */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 10px 0 10px;
+        }
+
+        .brand-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-group {
+            font-size: 11px;
+            color: var(--main-blue);
+            font-weight: bold;
+        }
+
+        .brand-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--main-blue);
+            margin: 0;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        .btn-print {
+            background-color: white;
+            border: 1px solid #cbd5e0;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* Main Dashboard Card */
+        .main-card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .project-info-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 40px;
+        }
+
+        .project-details h1 {
+            color: var(--main-blue);
+            font-size: 36px;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+        }
+
+        .project-description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .project-meta-pills {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .project-meta-pills span {
+            font-weight: 600;
+            color: var(--main-blue);
+        }
+
+        /* KPI Badge Right side */
+        .kpi-badge {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+
+        .kpi-number {
+            font-size: 84px;
+            font-weight: 700;
+            color: var(--main-blue);
+            line-height: 1;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--main-blue);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .kpi-subtext {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Timeline Section */
+        .timeline-container {
+            margin-top: 20px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-line {
+            height: 4px;
+            background-color: var(--main-blue);
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .timeline-nodes {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+            text-align: center;
+        }
+
+        .node-date {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            height: 15px;
+        }
+
+        .node-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .node-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: white;
+            border: 3px solid var(--main-blue);
+            box-shadow: 0 0 0 4px white;
+            transition: all 0.3s;
+        }
+
+        .node-circle.filled {
+            background-color: var(--main-blue);
+        }
+
+        .node-circle.orange {
+            background-color: var(--accent-orange);
+            border-color: var(--accent-orange);
+            width: 14px;
+            height: 14px;
+        }
+
+        .timeline-node.current-date {
+            position: absolute;
+            left: 25%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            z-index: 3;
+        }
+
+        .current-date .node-circle {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-orange);
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--accent-orange);
+        }
+
+        .current-date-label {
+            position: absolute;
+            top: 15px;
+            white-space: nowrap;
+            font-size: 11px;
+            color: var(--accent-orange);
+            font-weight: bold;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Bottom Row Cards */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .bottom-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .bottom-card h2 {
+            font-size: 18px;
+            color: var(--main-blue);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .bottom-card p {
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .bottom-card ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .bottom-card li {
+            margin-bottom: 6px;
+        }
+
+        .text-empty {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        
+        <!-- Header -->
+        <header class="top-header">
+            <div class="brand-logo">
+                <span class="brand-group">Grupo Consubanco</span>
+                <h2 class="brand-title">Consubanco</h2>
+            </div>
+            <div class="header-meta">
+                <div>
+                    Información al <strong>17 oct 2026</strong><br>
+                    <span style="font-size: 11px;">Fecha de alta: 01/10/2025</span>
+                </div>
+                <button class="btn-print" onclick="window.print()">Imprimir vista</button>
+            </div>
+        </header>
+
+        <!-- Main Card Dashboard -->
+        <main class="main-card">
+            
+            <div class="project-info-grid">
+                <!-- Left Content -->
+                <div class="project-details">
+                    <h1>Cuenta Rocket</h1>
+                    
+                    <div class="project-description">
+                        <strong>Solución propuesta:</strong> Se quiere implementar un producto de ahorro para menores que ofrezca una experiencia digital atractiva, con un proceso de apertura ágil y un programa de referidos para impulsar la captación.
+                    </div>
+                    
+                    <div class="project-meta-pills">
+                        <div><span>Sponsor:</span> C. Budar</div>
+                        <div><span>Líder del proyecto:</span> C. Budar</div>
+                        <div><span>Tipo de proyecto:</span> Estratégico</div>
+                    </div>
+                </div>
+
+                <!-- Right Content (KPI) -->
+                <div class="kpi-badge">
+                    <div class="kpi-number">381</div>
+                    <div class="kpi-label">días desde el inicio del proyecto</div>
+                    <div class="kpi-subtext">Alta: 01 de octubre de 2025</div>
+                </div>
+            </div>
+
+            <!-- Timeline Diagram -->
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <!-- Current date indicator marker on line -->
+                <div class="timeline-node current-date">
+                    <div class="node-circle"></div>
+                    <div class="current-date-label">Hoy, 17 oct</div>
+                </div>
+
+                <div class="timeline-nodes">
+                    <!-- Node 1 -->
+                    <div class="timeline-node">
+                        <div class="node-date">01 oct 2025</div>
+                        <div class="node-label">Alta del Proyecto</div>
+                        <div class="node-circle filled"></div>
+                    </div>
+                    
+                    <!-- Node 2 -->
+                    <div class="timeline-node">
+                        <div class="node-date">Ene 2026</div>
+                        <div class="node-label">Desarrollo Inicial</div>
+                        <div class="node-circle filled"></div>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div class="timeline-node" style="visibility: hidden;">
+                        <!-- Spacer for current date position area -->
+                        <div class="node-date"></div><div class="node-label"></div><div class="node-circle"></div>
+                    </div>
+
+                    <!-- Node 4 -->
+                    <div class="timeline-node">
+                        <div class="node-date">Mid 2026</div>
+                        <div class="node-label">Fase de Pruebas</div>
+                        <div class="node-circle"></div>
+                    </div>
+
+                    <!-- Node 5 -->
+                    <div class="timeline-node">
+                        <div class="node-date">Dic 2026</div>
+                        <div class="node-label">Lanzamiento Estimado</div>
+                        <div class="node-circle orange"></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Rows Info Box -->
+        <div class="bottom-grid">
+            
+            <!-- Left Box: Antecedentes / Alcance -->
+            <div class="bottom-card">
+                <h2>Antecedentes / Alcance</h2>
+                <p style="margin-bottom: 10px;"><strong>Antecedentes / Contexto:</strong> <span class="text-empty">No se especifican antecedentes en la ficha técnica del proyecto.</span></p>
+                <p><strong>Alcance:</strong> <span class="text-empty">El alcance detallado se encuentra en definición según el modelo estratégico.</span></p>
+            </div>
+
+            <!-- Right Box: Hipótesis de Beneficios / KPIs -->
+            <div class="bottom-card">
+                <h2>Hipótesis de Beneficios & KPIs</h2>
+                <p style="margin-bottom: 12px;"><strong>Hipótesis de Beneficios:</strong><br>Ahorro en el costo de captación.</p>
+                
+                <p><strong>KPIs y Metas:</strong></p>
+                <ul>
+                    <li>Eficiencia en el costo de captación.</li>
+                    <li>Ahorro por el diferencial de tasas.</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
