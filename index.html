@@ -168,8 +168,6 @@
             margin-top: 50px;
             position: relative;
             padding: 20px 0;
-            display: flex;
-            align-items: center; /* Alinea perfectamente el eje central */
         }
 
         .timeline-line {
@@ -181,7 +179,6 @@
             transform: translateY(-50%);
             left: 0;
             border-radius: 2px;
-             z-index: 1;
         }
 
         .timeline-nodes {
@@ -189,14 +186,13 @@
             justify-content: space-between;
             position: relative;
             z-index: 2;
-            width: 100%;
         }
 
         .timeline-node {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 130px;
+            width: 140px;
             text-align: center;
             position: relative;
         }
@@ -213,24 +209,21 @@
             font-size: 11px;
             color: var(--text-muted);
             margin-bottom: 12px;
-            width: 130px;
+            width: 140px;
             line-height: 1.3;
             height: 35px;
             display: flex;
             align-items: flex-end;
             justify-content: center;
         }
-  /* Estructura base para círculos perfectamente centrados */
+
         .node-circle {
             width: 14px;
             height: 14px;
             border-radius: 50%;
             background-color: var(--card-bg);
             border: 3px solid var(--main-blue);
-            box-shadow: 0 0 0 5px var(--card-bg);
-            display: inline-block;
-            box-sizing: border-box;
-            z-index: 3;
+            box-shadow: 0 0 0 6px var(--card-bg);
         }
 
         .node-circle.filled {
@@ -240,17 +233,10 @@
         .node-circle.orange {
             background-color: var(--accent-orange);
             border-color: var(--accent-orange);
-            box-shadow: 0 0 0 5px var(--card-bg);
+            width: 16px;
+            height: 16px;
         }
-        .node-date {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--main-blue);
-            margin-top: 12px;
-            white-space: nowrap;
 
- /* Marcador flotante de la fecha actual ("Hoy") */
-        
         /* Marcador de fecha actual ("Hoy") */
         .timeline-node.current-date {
             position: absolute;
@@ -258,24 +244,24 @@
             top: 50%;
             transform: translate(-50%, -50%);
             width: auto;
-            z-index: 4;
+            z-index: 3;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .current-date .node-circle {
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             background-color: var(--accent-orange);
             border: 2px solid var(--card-bg);
-            box-shadow: 0 0 0 3px var(--accent-orange);
+            box-shadow: 0 0 0 2px var(--accent-orange);
             margin: 0;
         }
 
         .current-date-label {
             position: absolute;
-            top: 16px;
+            top: 15px;
             white-space: nowrap;
             font-size: 12px;
             color: var(--accent-orange);
@@ -381,8 +367,7 @@
             <!-- Timeline -->
             <div class="timeline-container">
                 <div class="timeline-line"></div>
-
-                 <!-- Indicador de "Hoy" perfectamente superpuesto -->
+                
                 <div class="timeline-node current-date">
                     <div class="node-circle"></div>
                     <div class="current-date-label">Hoy, 16 oct</div>
